@@ -1,0 +1,5 @@
+psutil
+requests
+google-genai
+send2trash
+vdf

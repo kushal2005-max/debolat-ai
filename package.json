@@ -1,0 +1,54 @@
+{
+  "name": "debolat-ai",
+  "productName": "Debolat AI",
+  "version": "1.0.0",
+  "description": "Debolat AI - AI-assisted Windows RAM and storage diagnostic tool",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --win --publish never"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.debolat.ai",
+    "productName": "Debolat AI",
+    "copyright": "Debolat AI",
+    "directories": { "output": "release" },
+    "files": [
+      "electron-main.js",
+      "preload.js",
+      "index.html",
+      "renderer.js",
+      "styles.css",
+      "fonts.css",
+      "connect-ai.css",
+      "polish.css",
+      "fonts/**/*",
+      "build/icon.png",
+      "package.json"
+    ],
+    "extraResources": [
+      { "from": "dist-backend/backend", "to": "backend" }
+    ],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false,
+      "artifactName": "DebolatAI-Setup-${version}.exe"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

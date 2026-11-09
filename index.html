@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Debolat AI</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="connect-ai.css" />
+  <link rel="stylesheet" href="polish.css" />
+</head>
+<body>
+
+  <nav class="top-nav">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="1.8" opacity=".35"/>
+        <path d="M12 2a10 10 0 0 1 10 10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+        <circle cx="12" cy="12" r="3.2" fill="currentColor"/>
+      </svg>
+      <span>Debolat AI</span>
+    </div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" data-target="home-screen">Home</button>
+      <button class="nav-tab" data-target="ram-screen">RAM</button>
+      <button class="nav-tab" data-target="storage-screen">Storage</button>
+      <button class="nav-tab" data-target="startup-screen">Startup</button>
+      <button class="nav-tab" data-target="watchlist-screen">Watchlist</button>
+    </div>
+    <div class="nav-actions">
+      <button id="connect-ai-btn" class="ai-pill attention" title="Connect your AI">
+        <span class="ai-dot"></span>
+        <span id="ai-status-text">Connect AI</span>
+      </button>
+      <span id="last-scan-time" class="last-scan">Scanning...</span>
+      <button id="refresh-btn" class="btn btn-secondary">Refresh</button>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ============ HOME ============ -->
+    <section id="home-screen" class="screen active">
+      <header class="hero">
+        <h1 id="greeting">Good day</h1>
+        <p class="hero-sub">Here's what's using your system right now.</p>
+      </header>
+
+      <div class="stat-tiles">
+        <div class="stat-tile tile-ram">
+          <div class="tile-label">RAM in use</div>
+          <div class="tile-value mono" id="ram-value">-- / -- GB</div>
+          <div class="tile-sub" id="ram-percent">--%</div>
+          <button class="tile-link" data-target="ram-screen">View processes &rarr;</button>
+        </div>
+        <div class="stat-tile tile-storage">
+          <div class="tile-label">Largest folder</div>
+          <div class="tile-value mono" id="storage-value">-- GB</div>
+          <div class="tile-sub" id="storage-name">--</div>
+          <button class="tile-link" data-target="storage-screen">View folders &rarr;</button>
+        </div>
+        <div class="stat-tile tile-startup">
+          <div class="tile-label">Startup apps</div>
+          <div class="tile-value mono" id="startup-value">--</div>
+          <div class="tile-sub" id="startup-sub">--</div>
+          <button class="tile-link" data-target="startup-screen">View startup &rarr;</button>
+        </div>
+      </div>
+
+      <p class="disclaimer">
+        Debolat AI explains what's using your resources. Nothing is removed,
+        changed, or shut down without your explicit confirmation.
+      </p>
+    </section>
+
+    <!-- ============ RAM ============ -->
+    <section id="ram-screen" class="screen">
+      <h2 class="screen-title">RAM processes</h2>
+      <div id="ram-list" class="item-list"></div>
+    </section>
+
+    <!-- ============ STORAGE ============ -->
+    <section id="storage-screen" class="screen">
+      <h2 class="screen-title">Storage folders</h2>
+      <div id="storage-list" class="item-list"></div>
+    </section>
+
+    <!-- ============ STARTUP ============ -->
+    <section id="startup-screen" class="screen">
+      <h2 class="screen-title">Startup apps</h2>
+      <div id="startup-list" class="item-list"></div>
+    </section>
+
+    <!-- ============ WATCHLIST ============ -->
+    <section id="watchlist-screen" class="screen">
+      <div class="screen-header-row">
+        <h2 class="screen-title">Watchlist</h2>
+        <button id="add-to-watchlist-btn" class="btn btn-primary">Add an app</button>
+      </div>
+      <p class="screen-intro">
+        Apps here are checked every time you open Debolat AI. If one goes
+        unused past its threshold, you'll be asked what to do about it.
+      </p>
+      <div id="watchlist-list" class="item-list"></div>
+    </section>
+  </main>
+
+  <!-- ============ ADD TO WATCHLIST PICKER ============ -->
+  <div id="picker-modal" class="modal-overlay hidden">
+    <div class="modal modal-wide">
+      <h2>Add an app to watch</h2>
+      <input id="picker-search" class="picker-search" type="text" placeholder="Search installed apps..." />
+      <div id="picker-list" class="picker-list"></div>
+      <div class="modal-actions">
+        <button id="close-picker-btn" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CONNECT AI ============ -->
+  <div id="ai-modal" class="modal-overlay hidden">
+    <div class="modal modal-wide">
+      <h2>Connect your AI</h2>
+      <p class="modal-note">
+        Pick the AI you're comfortable with. It only runs when you click
+        "Show AI Explanation" on an item.
+      </p>
+      <div id="ai-modal-body"></div>
+      <div class="modal-actions">
+        <button id="close-ai-btn" class="btn btn-secondary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SELECTION FOOTER ============ -->
+  <div id="selection-footer" class="selection-footer hidden">
+    <span id="selection-count">0 items selected</span>
+    <button id="review-selection-btn" class="btn btn-primary">Review Selection</button>
+  </div>
+
+  <!-- ============ REVIEW MODAL ============ -->
+  <div id="review-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <h2>Review Selection</h2>
+      <p class="modal-note">
+        Processes are terminated immediately. Folders go to the Recycle
+        Bin (recoverable). Startup entries are removed and backed up to
+        a local log. This cannot be undone from within the app.
+      </p>
+      <ul id="review-list" class="review-list"></ul>
+      <div id="apply-result"></div>
+      <div class="modal-actions">
+        <button id="close-modal-btn" class="btn btn-secondary">Close</button>
+        <button id="apply-selection-btn" class="btn btn-danger">Apply Selected</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ NEGLECTED APP NAG MODAL ============ -->
+  <div id="nag-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <h2 id="nag-title">Still need this?</h2>
+      <p class="modal-note" id="nag-body"></p>
+      <div class="nag-actions">
+        <button id="nag-uninstall-btn" class="btn btn-danger">Uninstall</button>
+        <button id="nag-snooze-1-btn" class="btn btn-secondary">1 more week</button>
+        <button id="nag-snooze-2-btn" class="btn btn-secondary">2 more weeks</button>
+        <button id="nag-no-btn" class="btn btn-secondary">No, stop asking</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

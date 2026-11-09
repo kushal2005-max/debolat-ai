@@ -1,0 +1,37 @@
+Debolat AI
+Copyright (c) 2026 Y. Kushal Goud. All rights reserved.
+
+This software and its source code are the exclusive property of the copyright
+holder. No license is granted except as stated below.
+
+1. SOURCE CODE
+   You may view the source code. You may not copy, modify, merge, publish,
+   distribute, sublicense, sell, or create derivative works from it, in whole
+   or in part, without prior written permission from the copyright holder.
+   The only exception is viewing and forking this repository on GitHub, to the
+   extent GitHub's Terms of Service allow, which grants no rights beyond that.
+
+2. INSTALLER AND APPLICATION
+   You may download, install and use the compiled application for your own
+   personal use, free of charge. You may not redistribute it, resell it,
+   modify it, or reverse engineer it, except where applicable law gives you
+   that right despite this restriction.
+
+3. NAME AND LOGO
+   "Debolat AI", its logo and its icon are not licensed for any use.
+
+4. NO WARRANTY
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A
+   PARTICULAR PURPOSE AND NONINFRINGEMENT. THE SOFTWARE CAN CLOSE PROGRAMS AND
+   MOVE FILES AT THE USER'S REQUEST; YOU USE IT AT YOUR OWN RISK. IN NO EVENT
+   SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY ARISING FROM THE USE OF THE SOFTWARE, INCLUDING LOSS OF DATA.
+
+5. THIRD-PARTY COMPONENTS
+   The application includes open-source components (for example Electron,
+   Python, psutil and others). They remain under their own licenses, which are
+   not changed by this file.
+
+For permission to use the code in any other way, contact the copyright holder
+through the GitHub profile that hosts this repository.

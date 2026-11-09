@@ -1,0 +1,21 @@
+# secrets - never commit these
+.env
+*.env
+!.env.example
+
+# environments and installs
+.venv/
+node_modules/
+__pycache__/
+*.pyc
+
+# build output
+dist-backend/
+build-backend/
+release/
+dist/
+
+# the user's own local data
+watchlist.json
+startup_removals_backup.json
+ai-config.json
