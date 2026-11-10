@@ -19,3 +19,5 @@ dist/
 watchlist.json
 startup_removals_backup.json
 ai-config.json
+
+.vscode/
