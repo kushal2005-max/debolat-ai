@@ -1,35 +1,67 @@
 # Debolat AI
 
-**Understand what's slowing your Windows PC, in plain English, and clean it up safely.**
+**Find out what is slowing down your Windows PC, in plain English, and decide what to do about it.**
 
-Debolat AI scans your RAM, storage and startup apps, then uses the AI of your choice to explain what each item is, how confident it is, and what you could do about it. You approve every action. Nothing is removed, closed or changed without your confirmation.
+Debolat AI scans your RAM, storage and startup apps, then uses the AI *you* choose to explain each item,
+with a confidence level and a recommendation. **Nothing is removed, changed or shut down without your approval.**
 
-> Version 1.0 · Windows 10/11 · Early release
+![Debolat AI home screen](screenshots/home.png)
 
-## Why it's different
-- **Real data only.** Every number comes from Windows itself. The AI never invents sizes, dates or usage.
-- **It says when it's unsure.** If the AI doesn't know what something is, it says so instead of guessing.
-- **You stay in control.** Folders go to the Recycle Bin, startup entries are backed up before removal, and uninstalling launches the app's own uninstaller.
-- **Bring your own AI.** Connect Gemini, OpenAI, Claude, OpenRouter, or a local model through Ollama. Scanning sends nothing anywhere; only the item you click "Show AI Explanation" on is sent.
+## Download
 
-## Features
-- **RAM:** every running app grouped together (all of Chrome's processes in one row), plus an honest line for memory no app owns.
-- **Storage:** drive usage bars, a whole-drive scan, and drill-down into any folder.
-- **Startup:** apps that launch with Windows (registry Run entries).
-- **Watchlist:** pick apps to watch; get asked what to do when one goes unused for too long.
-- **Connect AI:** one panel, a "Get API key" button per provider, keys stored encrypted on your PC.
+Get the latest installer from the **[Releases page](../../releases/latest)**: download `DebolatAI-Setup-x.y.z.exe`,
+double-click it, done. No Python or other tools needed.
 
-## Install
-Download `DebolatAI-Setup-1.0.0.exe` from the [Releases](../../releases) page and run it.
-Windows may show a SmartScreen warning because the installer isn't code-signed yet: choose **More info → Run anyway**.
+> Windows may show a "SmartScreen" warning because the installer is not code-signed yet. Click **More info → Run anyway**.
 
-## Known limitations (v1.0)
-- Windows only.
-- Startup scan covers registry Run entries only (not the Startup folder or Task Scheduler).
-- "Last used" detection relies on Windows' UserAssist data and can't find every app.
-- The installer is unsigned, so SmartScreen warns on first run.
+## What it does
 
-## Build from source
+### See where your RAM goes
+Processes are grouped by app (for example, all 12 `Code.exe` processes appear as one entry), with the real memory each app uses.
+
+![RAM processes grouped by app](screenshots/ram.png)
+
+### Find what is eating your storage
+See every drive, scan the whole thing, and drill into any folder. System folders are marked as protected.
+
+![Storage scan with protected system folders](screenshots/storage.png)
+
+### Control what starts with Windows
+Every startup entry in one list, each with a plain-English explanation on request.
+
+![Startup apps](screenshots/startup.png)
+
+### Watch apps you never use
+Add an app to the watchlist with a threshold. When it goes unused for too long, Debolat AI asks what you want to do.
+
+![Watchlist](screenshots/watchlist.png)
+
+## Bring your own AI
+
+Click **Connect AI** in the top bar and pick the AI you are comfortable with. Each one has a button that opens the right page to get a key.
+Supported: Google Gemini, OpenAI, Anthropic Claude, OpenRouter, and Ollama (runs on your PC, nothing leaves it).
+
+The AI only runs when you click **Show AI Explanation** on an item. Nothing is sent during scanning, and your key is stored encrypted on your PC.
+
+![Connect your AI](screenshots/connect-ai.png)
+
+## You stay in control
+
+Every change goes through a review step and a final confirmation. Folders go to the Recycle Bin (recoverable), and startup entries are backed up before removal.
+
+| Review | Done |
+|---|---|
+| ![Confirm before applying](screenshots/confirm.png) | ![Action completed](screenshots/done.png) |
+
+## Principles
+
+- **Real data only.** Everything shown comes from a real scan of your PC.
+- **The AI says when it is unsure.** Low confidence is shown as such, not hidden.
+- **You approve everything.**
+
+## For developers
+
+### Run from source
 ```
 python -m venv .venv
 .venv\Scripts\activate
@@ -37,14 +69,25 @@ pip install -r requirements.txt
 npm install
 npm start
 ```
-Build the installer with `build.bat` (output goes to `release\`).
-Optional: copy `.env.example` to `.env` to use a developer Gemini key while developing.
+Optional: copy `.env.example` to `.env` and add a Gemini key as a developer fallback.
 
-## How it works
-Windows data → Python scanners → (only when you click) your chosen AI → Electron UI → confirmed actions.
-Adding a new AI provider is one entry in `providers.py`.
+### Build the installer
+Double-click `build.bat` (or run it in a terminal). It
+1. compiles the Python backend into `backend.exe` (PyInstaller),
+2. self-tests it,
+3. packages everything into `release\DebolatAI-Setup-<version>.exe` (electron-builder).
+
+Change the version in `package.json` before each release.
+
+### Where things are stored (installed app)
+`%APPDATA%\Debolat AI\` holds the watchlist, the startup-removal backup and the (encrypted) AI key.
+Uninstalling does not delete this folder.
+
+### Adding another AI provider
+Add one entry to `PROVIDERS` in `providers.py` (and one `_call_*` function if it is not
+OpenAI-compatible). The Connect AI panel builds itself from that list.
 
 ## License
+
 Copyright (c) 2026 Y. Kushal Goud. All rights reserved.
-You may use the installed app for personal use and view the source code, but you may not copy,
-modify, redistribute or sell it. See [LICENSE](LICENSE) for the full terms.
+The source is viewable on GitHub. The installer is free for personal use. No redistribution or reverse engineering. See [LICENSE](LICENSE) for the full terms.
